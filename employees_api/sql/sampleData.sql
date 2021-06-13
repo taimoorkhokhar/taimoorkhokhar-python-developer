@@ -52,30 +52,30 @@ CREATE INDEX IF NOT EXISTS 'employees_employeeslots_EmployeeId2_11297403' ON 'em
 INSERT INTO 'employees_department' VALUES (
 	NULL,
 	'Research',
-	'2014-05-09'
+	datetime('now')
 );
 INSERT INTO 'employees_department'  VALUES (
 	NULL,
 	'Marketing',
-	'2014-05-09'
+	datetime('now')
 );
 INSERT INTO 'employees_department' VALUES (
 	NULL,
 	'Accounting',
-	'2014-05-09'
+	datetime('now')
 );
 
 
 INSERT INTO 'employees_designation'  VALUES (
 	NULL,
 	'Manager',
-	'2014-05-09'
+	datetime('now')
 );
 
 INSERT INTO 'employees_designation' VALUES (
 	NULL,
 	'Supervisor',
-	'2014-05-09'
+	datetime('now')
 );
 
 
@@ -85,8 +85,8 @@ INSERT INTO 'employees_employee' VALUES(
 		 'A',
 		 'Kramer',
 		 '500',
-		 '2014-05-09',
-		 '2014-05-09',
+		 datetime('now'),
+		 datetime('now'),
 		(SELECT DepartmentId from 'employees_department' WHERE Name='Research'),
 		(SELECT DesignationId from 'employees_designation' WHERE Name='Manager')
 );
@@ -97,8 +97,8 @@ INSERT INTO 'employees_employee' VALUES(
 		 'Khokhar',
 		 'Khokhar',
 		 '501',
-		 '2014-05-09',
-		 '2014-05-09',
+		 datetime('now'),
+		 datetime('now'),
 		(SELECT DepartmentId from 'employees_department' WHERE Name='Marketing'),
 		(SELECT DesignationId from 'employees_designation' WHERE Name='Supervisor')
 );
