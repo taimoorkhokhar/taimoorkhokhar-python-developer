@@ -1,5 +1,8 @@
 $(document).ready(function () {
     setTimeout(function(){
+        var e = document.getElementById("selectEmployeeDropdown");
+        var strUser = e.value;
+        console.log("strUser", strUser)
 
         const chatBubbles = document.querySelectorAll('#mCSB_1 ul li a');
         const sendMessage = document.querySelector('#send-message');

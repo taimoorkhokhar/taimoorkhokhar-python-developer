@@ -12,11 +12,9 @@
                         <div class="form-group">
                             <label for="selectEmployeeDropdown">Select Employee</label>
                             <select class="form-control" id="selectEmployeeDropdown">
-                              <option>1</option>
-                              <option>2</option>
-                              <option>3</option>
-                              <option>4</option>
-                              <option>5</option>
+                                {% for data in response %}
+                                    <option value="{{ data.employee_id }}">{{ data.first_name }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                         <div class="form-group">

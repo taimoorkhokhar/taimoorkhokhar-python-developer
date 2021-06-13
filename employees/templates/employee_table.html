@@ -10,23 +10,18 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#bookMeetingModal" data-whatever="@mdo">Book a Meeting</button></td>
-                <td>
-                    <input class="bookedTimeSlotTags" style="width:400px;" type="text" name="bookedTimeSlotTags"/>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td><button type="button" class="btn btn-primary btn-sm" value="[9am, 8pm]" data-toggle="modal" data-target="#bookMeetingModal" data-whatever="@fat">Book a Meeting</button></td>
-                <td>
-                    <input class="bookedTimeSlotTags" style="width:400px;" type="text" name="bookedTimeSlotTags"/>
-                </td>
-            </tr>
+            {% for data in response %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <!-- First Name -->
+                    <td>{{ data.first_name }}</td>
+                    <!-- Last Name --> 
+                    <td>{{ data.last_name }}</td>
+                    <td><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#bookMeetingModal" data-whatever="{{ data.employee_id }}">Book a Meeting</button></td>
+                    <td>
+                        <input class="bookedTimeSlotTags" style="width:400px;" type="text" name="bookedTimeSlotTags"/>
+                    </td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
