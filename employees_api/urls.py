@@ -5,8 +5,8 @@ from . import views
 app_name = 'employees_api'
 
 urlpatterns = [
-    path('assistant/', assistant_views.Assistant.as_view()),
-    path('assistant/<int:pk>/', assistant_views.UpdateAssistant.as_view()),
+    path('employees/', views.Employees.as_view()),
+    # path('assistant/<int:pk>/', assistant_views.UpdateAssistant.as_view()),
     # path('ask-question/', assistant_views.AskQuestion.as_view()),
     # path('train-assistant/', assistant_views.TrainAssistant.as_view()),
     # path('channel/', channel_views.Channel.as_view()),
