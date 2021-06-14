@@ -1,5 +1,11 @@
   
 from rest_framework import serializers
+from datetime import datetime
+
+def convert_time(time_str):
+	return datetime.strptime(str(time_str), "%H:%M:%S").strftime("%I:%M %p")
+
+
 
 class EmployeesSerializer(serializers.Serializer):
     employee_id = serializers.SerializerMethodField()
@@ -25,8 +31,17 @@ class MeetingSlotSerializer(serializers.Serializer):
     meeting_to_time = serializers.SerializerMethodField()
 
     def get_meeting_from_time(self,obj):
-    	return obj[0]
+    	return convert_time(obj[0])
 
     def get_meeting_to_time(self, obj):
-        return obj[1]
+        return convert_time(obj[1])
 
+
+class BookMeetingSerializer(serializers.Serializer):
+    meeting_from_time = serializers.TimeField()
+    meeting_to_time = serializers.TimeField()
+    class Meta:
+        fields = (
+            'meeting_from_time',
+            'meeting_to_time'        
+         )
