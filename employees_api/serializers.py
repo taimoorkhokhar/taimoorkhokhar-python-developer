@@ -3,7 +3,7 @@ from rest_framework import serializers
 from datetime import datetime
 
 def convert_time(time_str):
-	return datetime.strptime(str(time_str), "%H:%M:%S").strftime("%I:%M %p")
+	return datetime.strptime(str(time_str), "%H:%M:%S").strftime("%H:%M")
 
 ''' serializer to view all employees'''
 class EmployeesSerializer(serializers.Serializer):
