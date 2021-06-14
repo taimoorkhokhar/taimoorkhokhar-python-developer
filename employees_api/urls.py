@@ -1,11 +1,13 @@
 from django.conf.urls import include
 from django.urls import path
 from . import views
+from django.conf.urls import url
+
 
 app_name = 'employees_api'
 
 urlpatterns = [
-    path('employees/', views.Employees.as_view()),
+    url(r'employees/(?P<date>\d{4}-\d{2}-\d{2})/$', views.AvailableEmployees.as_view()),
     # path('assistant/<int:pk>/', assistant_views.UpdateAssistant.as_view()),
     # path('ask-question/', assistant_views.AskQuestion.as_view()),
     # path('train-assistant/', assistant_views.TrainAssistant.as_view()),

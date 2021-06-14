@@ -47,7 +47,9 @@ CREATE INDEX IF NOT EXISTS 'employees_employee_DesignationId_b7324c9e' ON 'emplo
 CREATE INDEX IF NOT EXISTS 'employees_employeeslots_EmployeeId1_3f2564a5' ON 'employees_employeeslots' ('EmployeeId1');
 CREATE INDEX IF NOT EXISTS 'employees_employeeslots_EmployeeId2_11297403' ON 'employees_employeeslots' ('EmployeeId2');
 
-
+--
+-- Populate Department Table
+--
 INSERT INTO 'employees_department' VALUES (
 	NULL,
 	'Research',
@@ -64,6 +66,9 @@ INSERT INTO 'employees_department' VALUES (
 	datetime('now')
 );
 
+--
+-- Populate Designation Table
+--
 
 INSERT INTO 'employees_designation'  VALUES (
 	NULL,
@@ -77,6 +82,10 @@ INSERT INTO 'employees_designation' VALUES (
 	datetime('now')
 );
 
+
+--
+-- Populate Employee Table
+--
 
 INSERT INTO 'employees_employee' VALUES(
 	NULL,
@@ -100,4 +109,103 @@ INSERT INTO 'employees_employee' VALUES(
 	datetime('now'),
 	(SELECT DepartmentId from 'employees_department' WHERE Name='Marketing'),
 	(SELECT DesignationId from 'employees_designation' WHERE Name='Supervisor')
+);
+INSERT INTO 'employees_employee' VALUES(
+	NULL,
+	'Rakesh',
+	'Soni',
+	'Soni',
+	'502',
+	datetime('now'),
+	datetime('now'),
+	(SELECT DepartmentId from 'employees_department' WHERE Name='Accounting'),
+	(SELECT DesignationId from 'employees_designation' WHERE Name='Supervisor')
+);
+
+--
+-- Populate EmployeeSlot Table
+--
+
+INSERT INTO 'employees_employeeslots' VALUES (
+	NULL,
+	DATE('2021-06-14'),
+	TIME('01:00:00'),
+	TIME('02:00:00'),
+	NULL,
+	datetime('now'),
+	(SELECT EmployeeId from 'employees_employee' WHERE FirstName='Jon'),
+	NULL	
+);
+INSERT INTO 'employees_employeeslots' VALUES (
+	NULL,
+	DATE('2021-06-14'),
+	TIME('02:00:00'),
+	TIME('03:00:00'),
+	NULL,
+	datetime('now'),
+	(SELECT EmployeeId from 'employees_employee' WHERE FirstName='Jon'),
+	NULL
+);
+
+INSERT INTO 'employees_employeeslots' VALUES (
+	NULL,
+	DATE('2021-06-14'),
+	TIME('01:00:00'),
+	TIME('02:00:00'),
+	NULL,
+	datetime('now'),
+	(SELECT EmployeeId from 'employees_employee' WHERE FirstName='Taimoor'),
+	NULL	
+);
+INSERT INTO 'employees_employeeslots' VALUES (
+	NULL,
+	DATE('2021-06-14'),
+	TIME('01:00:00'),
+	TIME('02:00:00'),
+	NULL,
+	datetime('now'),
+	(SELECT EmployeeId from 'employees_employee' WHERE FirstName='Rakesh'),
+	NULL	
+);
+INSERT INTO 'employees_employeeslots' VALUES (
+	NULL,
+	DATE('2021-06-14'),
+	TIME('03:00:00'),
+	TIME('04:00:00'),
+	NULL,
+	datetime('now'),
+	(SELECT EmployeeId from 'employees_employee' WHERE FirstName='Rakesh'),
+	NULL	
+);
+
+INSERT INTO 'employees_employeeslots' VALUES (
+	NULL,
+	DATE('2021-07-14'),
+	TIME('02:00:00'),
+	TIME('03:00:00'),
+	NULL,
+	datetime('now'),
+	(SELECT EmployeeId from 'employees_employee' WHERE FirstName='Jon'),
+	NULL
+);
+
+INSERT INTO 'employees_employeeslots' VALUES (
+	NULL,
+	DATE('2021-07-14'),
+	TIME('02:00:00'),
+	TIME('03:00:00'),
+	NULL,
+	datetime('now'),
+	(SELECT EmployeeId from 'employees_employee' WHERE FirstName='Jon'),
+	NULL
+);
+INSERT INTO 'employees_employeeslots' VALUES (
+	NULL,
+	DATE('2021-07-14'),
+	TIME('02:00:00'),
+	TIME('03:00:00'),
+	NULL,
+	datetime('now'),
+	(SELECT EmployeeId from 'employees_employee' WHERE FirstName='Rakesh'),
+	NULL	
 );
