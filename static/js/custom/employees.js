@@ -1,52 +1,35 @@
 $(document).ready(function () {
-    // setTimeout(function(){
-        const myInput = document.querySelector("#employeeDatePicker");
-        // const config = {
-        //     altInput: true,
-        //     dateFormat: "YYYY-MM-DD",
-        //     altFormat: "DD-MM-YYYY",
-        //     allowInput: true,
-        //     wrap: true,
-        //     parseDate: (datestr, format) => {
-        //       return moment(datestr, format, true).toDate();
-        //     },
-        //     formatDate: (date, format, locale) => {
-        //       // locale can also be used
-        //       return moment(date).format(format);
-        //     }
-        // }
-        const fp = flatpickr(myInput, {});  // flatpickr
-        fp.config.onChange.push(function(selectedDates, dateStr, instance) {
-            console.log(dateStr)
-            getEmployeesByDate(datestr)
-        });
-        // var e = document.getElementById("selectEmployeeDropdown");
-        // var strUser = e.value;
-        // console.log("strUser", strUser)
+    setTimeout(function(){
+        var e = document.getElementById("selectEmployeeDropdown");
+        var strUser = e.value;
+        console.log("strUser", strUser)
 
-        // const chatBubbles = document.querySelectorAll('#mCSB_1 ul li a');
-        // const sendMessage = document.querySelector('#send-message');
-        // const chatProfileImage = $('.chat-profile-photo');
-        // const chatProfileName = $('.chat-profile-name');
-        // const chatOrganizationName = $('.chat-profile-name p');
-        // const chatChannelName = $('.chat-profile-name p');
-        // const typingAnimation = $('.chat-box .clearfix.typing-animation');
+        const chatBubbles = document.querySelectorAll('#mCSB_1 ul li a');
+        const sendMessage = document.querySelector('#send-message');
+        const chatProfileImage = $('.chat-profile-photo');
+        const chatProfileName = $('.chat-profile-name');
+        const chatOrganizationName = $('.chat-profile-name p');
+        const chatChannelName = $('.chat-profile-name p');
+        const typingAnimation = $('.chat-box .clearfix.typing-animation');
         
 
-        // for (let clickEventCounter = 0; clickEventCounter < chatBubbles.length; clickEventCounter++) {
-        //     chatBubbles[clickEventCounter].addEventListener('click',  chatBubblesClickEvent.bind(this, clickEventCounter), false);
-        // }
-        // sendMessage.addEventListener('click',  sendMessageClickEvent.bind(this, 0), false);
+        for (let clickEventCounter = 0; clickEventCounter < chatBubbles.length; clickEventCounter++) {
+            chatBubbles[clickEventCounter].addEventListener('click',  chatBubblesClickEvent.bind(this, clickEventCounter), false);
+        }
+        sendMessage.addEventListener('click',  sendMessageClickEvent.bind(this, 0), false);
 
 
-        // function sendMessageClickEvent(elementCounter, element){
+        function sendMessageClickEvent(elementCounter, element){
             
-        // }
+        }
 
-        function getEmployeesByDate(date) {
+        function askQuestionApiCall(collectiveName,channelName,assistantName, message) {
             // console.log(collectiveName,channelName,assistantName, message)
             const form_data = new FormData();
-            form_data.append("date", date);
+            form_data.append("collective_name",collectiveName);
+            form_data.append("channel_name",channelName);
+            form_data.append("assistant_name",assistantName);
+            form_data.append("question",message);
             form_data.append("csrfmiddlewaretoken" , "{{csrf_token}}");
             $.ajax({
                 url: "http://127.0.0.1/api/ask-question/?format=json",
@@ -83,5 +66,5 @@ $(document).ready(function () {
             });
         }
 
-    // }, 2000);
+    }, 2000);
 });

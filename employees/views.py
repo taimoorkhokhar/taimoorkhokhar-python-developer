@@ -8,3 +8,6 @@ def home(request):
     print(response.json()) # This should contain the returned data
     context = response.json()
     return render(request, 'home.html', context)
+
+
+# YYY-MM-DD
