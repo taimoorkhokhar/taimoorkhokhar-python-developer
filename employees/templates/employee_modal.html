@@ -8,26 +8,21 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="bookMeetingform">
                         <div class="form-group">
                             <label for="selectEmployeeDropdown">Select Employee</label>
-                            <select class="form-control" id="selectEmployeeDropdown">
+                            <select class="form-control" id="selectEmployeeDropdown" required>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="meetingSlotDropdown">Meeting Slot</label>
-                            <select class="form-control" id="meetingSlotDropdown">
-                              <option>1</option>
-                              <option>2</option>
-                              <option>3</option>
-                              <option>4</option>
-                              <option>5</option>
+                            <select class="form-control" id="meetingSlotDropdown" required>
                             </select>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Submit</button>
+                    <button type="submit" form="bookMeetingform" class="btn btn-primary">Submit</button>
                 </div>
             </div>
         </div>
