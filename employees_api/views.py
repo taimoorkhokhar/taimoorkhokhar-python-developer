@@ -12,14 +12,19 @@ from rest_framework.renderers import (
 
 from . import serializers
 from django.db import connection
-from datetime import datetime
 
-def convert_time_to_24_format(time_str):
-    return datetime.strptime(str(time_str), "%H:%M:%S").strftime("%I:%M %p")
 
 class AvailableEmployees(APIView):
 
     def get(self, request,date):
+        '''
+        API CALL: view all available employees for a specific date
+        example route: http://127.0.0.1:8000/api/employees/2021-06-15/
+
+        returns:
+            dictionaray containing employees id, firstname, middlename
+            and lastname for that date
+        '''
         try:
             cursor = connection.cursor()
             sql_query = f"""
@@ -44,7 +49,14 @@ class AvailableMeetingSlots(APIView):
         renderer_classes = (BrowsableAPIRenderer, JSONRenderer, HTMLFormRenderer)
 
         def get(self, request, date, emp1_id, emp2_id):
+            '''
+            API CALL: view all available meeting slots for a specific date for two employees
+            query params: date, employee1_id, employee2_id
+            example route: http://127.0.0.1:8000/api/meeting_slots/2021-06-15/1/3/
 
+            returns:
+                dictionaray containing available meeting slots for both employees for that date
+            '''
             try:
                 cursor = connection.cursor()
                 sql_query = f"""
@@ -65,7 +77,18 @@ class AvailableMeetingSlots(APIView):
             except:
                 return Response({'response':'404 Not Found'})
 
+
         def put(self, request, date, emp1_id, emp2_id):
+            '''
+            API CALL: put request book meeting slot for a specific date for two employees
+            query params: date, employee1_id, employee2_id
+            example route: http://127.0.0.1:8000/api/meeting_slots/2021-06-15/1/3/
+            json params: {"meeting_from_time": 12:00, "meeting_to_time": 13:00 }
+
+            database changes:
+            It will update meeting slots' message to booked.
+            It will update Employee2Id for both employee slots.
+            '''
             serializer = serializers.BookMeetingSerializer(data=request.data)
             try:
                 if serializer.is_valid():
@@ -96,6 +119,14 @@ class AvailableMeetingSlots(APIView):
 class BookedMeetingSlots(APIView):
 
     def get(self, request, date):
+        '''
+        API CALL: view all booked meeting slots for a specific date
+        example route: http://127.0.0.1:8000/api/booked_slots/2021-06-15/
+        
+        returns:
+            dictionaray containing meeting slot, employee_1 id, employee_1 firstname, 
+            employee_2 id, employee_2 firstname for that date
+        '''
         try:
             cursor = connection.cursor()
             sql_query = f"""
