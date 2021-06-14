@@ -1,5 +1,5 @@
 
-    <table class="table">
+    <table class="table employeeTableByDate">
         <thead class="thead-dark">
             <tr>
             <th scope="col">#</th>
@@ -10,18 +10,6 @@
             </tr>
         </thead>
         <tbody>
-            {% for data in response %}
-                <tr>
-                    <th scope="row">{{ forloop.counter }}</th>
-                    <!-- First Name -->
-                    <td>{{ data.first_name }}</td>
-                    <!-- Last Name --> 
-                    <td>{{ data.last_name }}</td>
-                    <td><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#bookMeetingModal" data-whatever="{{ data.employee_id }}">Book a Meeting</button></td>
-                    <td>
-                        <input class="bookedTimeSlotTags" style="width:400px;" type="text" name="bookedTimeSlotTags"/>
-                    </td>
-                </tr>
-            {% endfor %}
+            <tr></tr>
         </tbody>
     </table>
