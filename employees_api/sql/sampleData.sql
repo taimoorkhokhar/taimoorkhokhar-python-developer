@@ -121,14 +121,25 @@ INSERT INTO 'employees_employee' VALUES(
 	(SELECT DepartmentId from 'employees_department' WHERE Name='Accounting'),
 	(SELECT DesignationId from 'employees_designation' WHERE Name='Supervisor')
 );
-
+INSERT INTO 'employees_employee' VALUES(
+	NULL,
+	'James',
+	'A',
+	'Smith',
+	'503',
+	datetime('now'),
+	datetime('now'),
+	(SELECT DepartmentId from 'employees_department' WHERE Name='Accounting'),
+	(SELECT DesignationId from 'employees_designation' WHERE Name='Manager')
+);
 --
 -- Populate EmployeeSlot Table
 --
--- Date 2021-06-14
+-- Available Slots for Date 2021-06-15
+
 INSERT INTO 'employees_employeeslots' VALUES (
 	NULL,
-	DATE('2021-06-14'),
+	DATE('2021-06-15'),
 	TIME('13:00:00'),
 	TIME('14:00:00'),
 	NULL,
@@ -138,7 +149,7 @@ INSERT INTO 'employees_employeeslots' VALUES (
 );
 INSERT INTO 'employees_employeeslots' VALUES (
 	NULL,
-	DATE('2021-06-14'),
+	DATE('2021-06-15'),
 	TIME('14:00:00'),
 	TIME('15:00:00'),
 	NULL,
@@ -146,10 +157,19 @@ INSERT INTO 'employees_employeeslots' VALUES (
 	(SELECT EmployeeId from 'employees_employee' WHERE FirstName='Jon'),
 	NULL
 );
-
 INSERT INTO 'employees_employeeslots' VALUES (
 	NULL,
-	DATE('2021-06-14'),
+	DATE('2021-06-15'),
+	TIME('10:00:00'),
+	TIME('11:00:00'),
+	NULL,
+	datetime('now'),
+	(SELECT EmployeeId from 'employees_employee' WHERE FirstName='Jon'),
+	NULL
+);
+INSERT INTO 'employees_employeeslots' VALUES (
+	NULL,
+	DATE('2021-06-15'),
 	TIME('13:00:00'),
 	TIME('14:00:00'),
 	NULL,
@@ -159,7 +179,17 @@ INSERT INTO 'employees_employeeslots' VALUES (
 );
 INSERT INTO 'employees_employeeslots' VALUES (
 	NULL,
-	DATE('2021-06-14'),
+	DATE('2021-06-15'),
+	TIME('15:00:00'),
+	TIME('16:00:00'),
+	NULL,
+	datetime('now'),
+	(SELECT EmployeeId from 'employees_employee' WHERE FirstName='Taimoor'),
+	NULL	
+);
+INSERT INTO 'employees_employeeslots' VALUES (
+	NULL,
+	DATE('2021-06-15'),
 	TIME('13:00:00'),
 	TIME('14:00:00'),
 	NULL,
@@ -169,7 +199,7 @@ INSERT INTO 'employees_employeeslots' VALUES (
 );
 INSERT INTO 'employees_employeeslots' VALUES (
 	NULL,
-	DATE('2021-06-14'),
+	DATE('2021-06-15'),
 	TIME('15:00:00'),
 	TIME('16:00:00'),
 	NULL,
@@ -177,11 +207,41 @@ INSERT INTO 'employees_employeeslots' VALUES (
 	(SELECT EmployeeId from 'employees_employee' WHERE FirstName='Rakesh'),
 	NULL	
 );
-
--- Date 2021-06-15
 INSERT INTO 'employees_employeeslots' VALUES (
 	NULL,
 	DATE('2021-06-15'),
+	TIME('10:00:00'),
+	TIME('11:00:00'),
+	NULL,
+	datetime('now'),
+	(SELECT EmployeeId from 'employees_employee' WHERE FirstName='James'),
+	NULL	
+);
+INSERT INTO 'employees_employeeslots' VALUES (
+	NULL,
+	DATE('2021-06-15'),
+	TIME('15:00:00'),
+	TIME('16:00:00'),
+	NULL,
+	datetime('now'),
+	(SELECT EmployeeId from 'employees_employee' WHERE FirstName='James'),
+	NULL	
+);
+
+-- Available Slots for Date 2021-06-16
+INSERT INTO 'employees_employeeslots' VALUES (
+	NULL,
+	DATE('2021-06-16'),
+	TIME('11:00:00'),
+	TIME('12:00:00'),
+	NULL,
+	datetime('now'),
+	(SELECT EmployeeId from 'employees_employee' WHERE FirstName='Jon'),
+	NULL	
+);
+INSERT INTO 'employees_employeeslots' VALUES (
+	NULL,
+	DATE('2021-06-16'),
 	TIME('14:00:00'),
 	TIME('15:00:00'),
 	NULL,
@@ -192,7 +252,7 @@ INSERT INTO 'employees_employeeslots' VALUES (
 
 INSERT INTO 'employees_employeeslots' VALUES (
 	NULL,
-	DATE('2021-06-15'),
+	DATE('2021-06-16'),
 	TIME('15:00:00'),
 	TIME('16:00:00'),
 	NULL,
@@ -200,9 +260,10 @@ INSERT INTO 'employees_employeeslots' VALUES (
 	(SELECT EmployeeId from 'employees_employee' WHERE FirstName='Jon'),
 	NULL
 );
+
 INSERT INTO 'employees_employeeslots' VALUES (
 	NULL,
-	DATE('2021-06-15'),
+	DATE('2021-06-16'),
 	TIME('14:00:00'),
 	TIME('15:00:00'),
 	NULL,
@@ -212,11 +273,96 @@ INSERT INTO 'employees_employeeslots' VALUES (
 );
 INSERT INTO 'employees_employeeslots' VALUES (
 	NULL,
-	DATE('2021-06-15'),
+	DATE('2021-06-16'),
 	TIME('15:00:00'),
 	TIME('16:00:00'),
 	NULL,
 	datetime('now'),
 	(SELECT EmployeeId from 'employees_employee' WHERE FirstName='Rakesh'),
 	NULL	
+);
+INSERT INTO 'employees_employeeslots' VALUES (
+	NULL,
+	DATE('2021-06-16'),
+	TIME('11:00:00'),
+	TIME('12:00:00'),
+	NULL,
+	datetime('now'),
+	(SELECT EmployeeId from 'employees_employee' WHERE FirstName='James'),
+	NULL	
+);
+INSERT INTO 'employees_employeeslots' VALUES (
+	NULL,
+	DATE('2021-06-16'),
+	TIME('15:00:00'),
+	TIME('16:00:00'),
+	NULL,
+	datetime('now'),
+	(SELECT EmployeeId from 'employees_employee' WHERE FirstName='James'),
+	NULL
+);
+
+
+-- Available Slots for Date 2021-06-17
+INSERT INTO 'employees_employeeslots' VALUES (
+	NULL,
+	DATE('2021-06-17'),
+	TIME('11:00:00'),
+	TIME('12:00:00'),
+	NULL,
+	datetime('now'),
+	(SELECT EmployeeId from 'employees_employee' WHERE FirstName='Jon'),
+	NULL	
+);
+INSERT INTO 'employees_employeeslots' VALUES (
+	NULL,
+	DATE('2021-06-17'),
+	TIME('14:00:00'),
+	TIME('15:00:00'),
+	NULL,
+	datetime('now'),
+	(SELECT EmployeeId from 'employees_employee' WHERE FirstName='Taimoor'),
+	NULL
+);
+
+INSERT INTO 'employees_employeeslots' VALUES (
+	NULL,
+	DATE('2021-06-17'),
+	TIME('15:00:00'),
+	TIME('16:00:00'),
+	NULL,
+	datetime('now'),
+	(SELECT EmployeeId from 'employees_employee' WHERE FirstName='Taimoor'),
+	NULL
+);
+
+INSERT INTO 'employees_employeeslots' VALUES (
+	NULL,
+	DATE('2021-06-17'),
+	TIME('14:00:00'),
+	TIME('15:00:00'),
+	NULL,
+	datetime('now'),
+	(SELECT EmployeeId from 'employees_employee' WHERE FirstName='Rakesh'),
+	NULL	
+);
+INSERT INTO 'employees_employeeslots' VALUES (
+	NULL,
+	DATE('2021-06-17'),
+	TIME('11:00:00'),
+	TIME('12:00:00'),
+	NULL,
+	datetime('now'),
+	(SELECT EmployeeId from 'employees_employee' WHERE FirstName='Rakesh'),
+	NULL	
+);
+INSERT INTO 'employees_employeeslots' VALUES (
+	NULL,
+	DATE('2021-06-17'),
+	TIME('15:00:00'),
+	TIME('16:00:00'),
+	NULL,
+	datetime('now'),
+	(SELECT EmployeeId from 'employees_employee' WHERE FirstName='James'),
+	NULL
 );
