@@ -6,6 +6,9 @@ $(document).ready(function () {
     let secondEmployeeId = null;
     let meetingFromslot = null;
     let meetingToslot = null;
+    let employeesByDateUrl = "http://127.0.0.1:8000/api/employees/";
+    let employeesTimeSlotsUrl = "http://127.0.0.1:8000/api/meeting_slots/";
+    let bookMeetingUrl = "http://127.0.0.1:8000/api/meeting_slots/";
 
     const fp = flatpickr(employeeDatePicker, {});  // flatpickr
 
@@ -16,15 +19,14 @@ $(document).ready(function () {
 
 
     $("#bookMeetingform").submit(function(e) {
-        e.preventDefault();
-        // console.log(firstEmployeeId, secondEmployeeId, meetingTimeSlots, selectedDate)
+        e.preventDefault(); //prevent page from reloading on form submit
         bookMeetingApiCall()
     });
 
 
     function getEmployeesByDate() {
         $.ajax({
-            url: "http://127.0.0.1:8000/api/employees/"+selectedDate,
+            url: employeesByDateUrl+selectedDate,
             type:'GET',
             cache: false,
             processData: false,
@@ -63,7 +65,7 @@ $(document).ready(function () {
 
     function getEmployeeTimeSlots(){
         $.ajax({
-            url: "http://127.0.0.1:8000/api/meeting_slots/"+selectedDate+"/"+firstEmployeeId+"/"+secondEmployeeId+"/",
+            url: employeesTimeSlotsUrl+selectedDate+"/"+firstEmployeeId+"/"+secondEmployeeId+"/",
             type:'GET',
             cache: false,
             processData: false,
@@ -89,25 +91,20 @@ $(document).ready(function () {
 
 
     function bookMeetingApiCall(){
-        const form_data = new FormData();
-        form_data.append("meeting_from_slot",meetingFromslot);
-        form_data.append("meeting_to_slot",meetingToslot);
+        let data = {
+            "meeting_from_time": meetingFromslot,
+            "meeting_to_time": meetingToslot,
+        }
         $.ajax({
-            url: "http://127.0.0.1:8000/api/meeting_slots/"+selectedDate+"/"+firstEmployeeId+"/"+secondEmployeeId+"/",
+            url: bookMeetingUrl+selectedDate+"/"+firstEmployeeId+"/"+secondEmployeeId+"/",
             type:'PUT',
             cache: false,
             processData: false,
-            data: form_data,
+            data:JSON.stringify( data),
             contentType: "application/json",
             dataType: "json",
             success: function (response) {
                 console.log(response)
-                // $("#meetingSlotDropdown").empty();
-                // document.getElementById("meetingSlotDropdown").innerHTML += '<option value="" disabled selected>Select TimeSlots</option>'
-                // for (const dataDic of response.response) {
-                //     let employeeDropdownOption = `<option >`+dataDic.meeting_from_time+ " - " +dataDic.meeting_to_time+`</option>`
-                //     document.getElementById("meetingSlotDropdown").innerHTML += employeeDropdownOption
-                // }
             },
             error: function (data) {
 

@@ -63,7 +63,7 @@ class AvailableMeetingSlots(APIView):
                 return Response({'response':'404 Not Found'})
 
         def put(self, request, date, emp1_id, emp2_id):
-
+            print("request.data == ", request.data)
             serializer = serializers.BookMeetingSerializer(data=request.data)
             try:
                 if serializer.is_valid():
