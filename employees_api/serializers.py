@@ -1,4 +1,3 @@
-
   
 from rest_framework import serializers
 
@@ -19,3 +18,15 @@ class EmployeesSerializer(serializers.Serializer):
 
     def get_last_name(self, obj):
         return obj[3]
+
+
+class MeetingSlotSerializer(serializers.Serializer):
+    meeting_from_time = serializers.SerializerMethodField()
+    meeting_to_time = serializers.SerializerMethodField()
+
+    def get_meeting_from_time(self,obj):
+    	return obj[0]
+
+    def get_meeting_to_time(self, obj):
+        return obj[1]
+

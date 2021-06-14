@@ -125,7 +125,7 @@ INSERT INTO 'employees_employee' VALUES(
 --
 -- Populate EmployeeSlot Table
 --
-
+-- Date 2021-06-14
 INSERT INTO 'employees_employeeslots' VALUES (
 	NULL,
 	DATE('2021-06-14'),
@@ -178,9 +178,10 @@ INSERT INTO 'employees_employeeslots' VALUES (
 	NULL	
 );
 
+-- Date 2021-06-15
 INSERT INTO 'employees_employeeslots' VALUES (
 	NULL,
-	DATE('2021-07-14'),
+	DATE('2021-06-15'),
 	TIME('02:00:00'),
 	TIME('03:00:00'),
 	NULL,
@@ -191,9 +192,9 @@ INSERT INTO 'employees_employeeslots' VALUES (
 
 INSERT INTO 'employees_employeeslots' VALUES (
 	NULL,
-	DATE('2021-07-14'),
-	TIME('02:00:00'),
+	DATE('2021-06-15'),
 	TIME('03:00:00'),
+	TIME('04:00:00'),
 	NULL,
 	datetime('now'),
 	(SELECT EmployeeId from 'employees_employee' WHERE FirstName='Jon'),
@@ -201,9 +202,19 @@ INSERT INTO 'employees_employeeslots' VALUES (
 );
 INSERT INTO 'employees_employeeslots' VALUES (
 	NULL,
-	DATE('2021-07-14'),
+	DATE('2021-06-15'),
 	TIME('02:00:00'),
 	TIME('03:00:00'),
+	NULL,
+	datetime('now'),
+	(SELECT EmployeeId from 'employees_employee' WHERE FirstName='Rakesh'),
+	NULL	
+);
+INSERT INTO 'employees_employeeslots' VALUES (
+	NULL,
+	DATE('2021-06-15'),
+	TIME('03:00:00'),
+	TIME('04:00:00'),
 	NULL,
 	datetime('now'),
 	(SELECT EmployeeId from 'employees_employee' WHERE FirstName='Rakesh'),
