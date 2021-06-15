@@ -46,7 +46,7 @@ $(document).ready(function () {
                                                 <td class="employeeLastName">`+dataDic.last_name+`</td>
                                                 <td><button type="button" class="btn btn-primary btn-sm bookMeetingBtn" data-toggle="modal" data-target="#bookMeetingModal" data-employee-id=`+dataDic.employee_id+`>Book a Meeting</button></td>
                                                 <td>
-                                                    <input class="bookedTimeSlotTags" style="width:400px;" type="text" name="bookedTimeSlotTags" id="bookedTimeSlotTag`+dataDic.employee_id+`"/>
+                                                    <input disabled class="bookedTimeSlotTags" style="width:400px; height:auto" type="text" name="bookedTimeSlotTags" id="bookedTimeSlotTag`+dataDic.employee_id+`"/>
                                                 </td>
                                             </tr>`
                     document.getElementsByClassName("employeeTableBody")[0].innerHTML += employeeTableRow
@@ -139,18 +139,23 @@ $(document).ready(function () {
             contentType: "application/json",
             dataType: "json",
             success: function (response) {
-                // console.log(response)
+                let counter = 0
                 for (const dataDic of response.response) {
-                    let bookedTimeSlot = `<div class="tag-sel-item ">`+dataDic.meeting_from_time+ " - " +dataDic.meeting_to_time+`</div>`
-                    console.log("bookedTimeSlot ==> ", bookedTimeSlot)
-                    $("#bookedTimeSlotTag"+dataDic.employee1_id+" div.tag-sel-ctn").empty();
-                    // let tagsInputElement1 = document.getElementById("bookedTimeSlotTag"+dataDic.employee1_id);
-                    // tagsInputElement1.getElementsByClassName("tag-sel-ctn")[0].innerHTML = bookedTimeSlot;
-                    // $("#bookedTimeSlotTag"+dataDic.employee2_id+" div.tag-sel-ctn").empty();
-                    // let tagsInputElement2 = document.getElementById("bookedTimeSlotTag"+dataDic.employee2_id);
-                    // tagsInputElement2.getElementsByClassName("tag-sel-ctn")[0].innerHTML = bookedTimeSlot;
-                    $("#bookedTimeSlotTag"+dataDic.employee1_id+" div.tag-sel-ctn:last").append(bookedTimeSlot)
-                    $("#bookedTimeSlotTag"+dataDic.employee2_id+" div.tag-sel-ctn:last").append(bookedTimeSlot)
+                    let bookedTimeSlot1 = `<div class="tag-sel-item ">`+dataDic.meeting_from_time+
+                                            " - " +dataDic.meeting_to_time+ " ( " +dataDic.employee2_name+ " )" +
+                                            `</div>`
+                    let bookedTimeSlot2 = `<div class="tag-sel-item ">`+dataDic.meeting_from_time+ 
+                                            " - " +dataDic.meeting_to_time+ " ( " +dataDic.employee1_name+ " )" +
+                                            `</div>`
+                    const tagsPlaceholderSelector = "#bookedTimeSlotTag"+dataDic.employee1_id+" div.tag-sel-ctn .tag-empty-text"
+
+                    if($(tagsPlaceholderSelector).val()==="No Time Slot Booked"){
+                        $("#bookedTimeSlotTag"+dataDic.employee1_id+" div.tag-sel-ctn").empty();
+                        $("#bookedTimeSlotTag"+dataDic.employee2_id+" div.tag-sel-ctn").empty();
+                    }
+                    $("#bookedTimeSlotTag"+dataDic.employee1_id+" div.tag-sel-ctn").append(bookedTimeSlot1)
+                    $("#bookedTimeSlotTag"+dataDic.employee2_id+" div.tag-sel-ctn").append(bookedTimeSlot2)
+                    counter++
                 }
             },
             error: function (data) {
