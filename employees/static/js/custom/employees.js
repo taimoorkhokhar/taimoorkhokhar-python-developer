@@ -115,6 +115,7 @@ $(document).ready(function () {
             dataType: "json",
             success: function (response) {
                 getBookedMeetingSlots()
+                console.log("success")
                 $('#bookMeetingModal').modal('hide')
                 $('#bookMeetingSuccess').show()
                 document.getElementById("bookMeetingSuccess").classList.remove('hide');
@@ -139,7 +140,7 @@ $(document).ready(function () {
             contentType: "application/json",
             dataType: "json",
             success: function (response) {
-                let counter = 0
+                $(".tag-ctn div.tag-sel-ctn").empty();
                 for (const dataDic of response.response) {
                     let bookedTimeSlot1 = `<div class="tag-sel-item ">`+dataDic.meeting_from_time+
                                             " - " +dataDic.meeting_to_time+ " ( " +dataDic.employee2_name+ " )" +
@@ -147,15 +148,8 @@ $(document).ready(function () {
                     let bookedTimeSlot2 = `<div class="tag-sel-item ">`+dataDic.meeting_from_time+ 
                                             " - " +dataDic.meeting_to_time+ " ( " +dataDic.employee1_name+ " )" +
                                             `</div>`
-                    const tagsPlaceholderSelector = "#bookedTimeSlotTag"+dataDic.employee1_id+" div.tag-sel-ctn .tag-empty-text"
-
-                    if($(tagsPlaceholderSelector).val()==="No Time Slot Booked"){
-                        $("#bookedTimeSlotTag"+dataDic.employee1_id+" div.tag-sel-ctn").empty();
-                        $("#bookedTimeSlotTag"+dataDic.employee2_id+" div.tag-sel-ctn").empty();
-                    }
                     $("#bookedTimeSlotTag"+dataDic.employee1_id+" div.tag-sel-ctn").append(bookedTimeSlot1)
                     $("#bookedTimeSlotTag"+dataDic.employee2_id+" div.tag-sel-ctn").append(bookedTimeSlot2)
-                    counter++
                 }
             },
             error: function (data) {
