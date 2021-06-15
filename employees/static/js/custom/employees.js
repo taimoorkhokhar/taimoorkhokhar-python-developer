@@ -9,6 +9,7 @@ $(document).ready(function () {
     let employeesByDateUrl = "http://127.0.0.1:8000/api/employees/";
     let employeesTimeSlotsUrl = "http://127.0.0.1:8000/api/meeting_slots/";
     let bookMeetingUrl = "http://127.0.0.1:8000/api/meeting_slots/";
+    let bookedSlotsUrl = "http://127.0.0.1:8000/api/booked_slots/";
 
     const fp = flatpickr(employeeDatePicker, {});  // flatpickr
 
@@ -45,7 +46,7 @@ $(document).ready(function () {
                                                 <td class="employeeLastName">`+dataDic.last_name+`</td>
                                                 <td><button type="button" class="btn btn-primary btn-sm bookMeetingBtn" data-toggle="modal" data-target="#bookMeetingModal" data-employee-id=`+dataDic.employee_id+`>Book a Meeting</button></td>
                                                 <td>
-                                                    <input class="bookedTimeSlotTags" style="width:400px;" type="text" name="bookedTimeSlotTags"/>
+                                                    <input class="bookedTimeSlotTags" style="width:400px;" type="text" name="bookedTimeSlotTags" id="bookedTimeSlotTag`+dataDic.employee_id+`"/>
                                                 </td>
                                             </tr>`
                     document.getElementsByClassName("employeeTableBody")[0].innerHTML += employeeTableRow
@@ -55,6 +56,15 @@ $(document).ready(function () {
                 for (let clickEventCounter = 0; clickEventCounter < bookMeetingBtns.length; clickEventCounter++) {
                     bookMeetingBtns[clickEventCounter].addEventListener('click',  bookMeetingBtnsClickEvent.bind(this), false);
                 }
+                $( ".bookedTimeSlotTags" ).each(function( index ) {
+                    const tag = $(this).tagSuggest({
+                        data: [],
+                        sortOrder: 'name',
+                        maxDropHeight: 200,
+                        name: 'bookedTimeSlotTags'
+                    })
+                });
+                getBookedMeetingSlots()
             },
             error: function (data) {
 
@@ -104,7 +114,44 @@ $(document).ready(function () {
             contentType: "application/json",
             dataType: "json",
             success: function (response) {
-                console.log(response)
+                getBookedMeetingSlots()
+                $('#bookMeetingModal').modal('hide')
+                $('#bookMeetingSuccess').show()
+                document.getElementById("bookMeetingSuccess").classList.remove('hide');
+                document.getElementById("bookMeetingSuccess").classList.add('show');
+                setTimeout(function(){
+                    document.getElementById("bookMeetingSuccess").classList.remove('show');
+                    document.getElementById("bookMeetingSuccess").classList.add('hide');
+                }, 3000)
+            },
+            error: function (data) {
+
+            }
+        });
+    }
+
+    function getBookedMeetingSlots(){
+        $.ajax({
+            url: bookedSlotsUrl+selectedDate,
+            type:'GET',
+            cache: false,
+            processData: false,
+            contentType: "application/json",
+            dataType: "json",
+            success: function (response) {
+                // console.log(response)
+                for (const dataDic of response.response) {
+                    let bookedTimeSlot = `<div class="tag-sel-item ">`+dataDic.meeting_from_time+ " - " +dataDic.meeting_to_time+`</div>`
+                    console.log("bookedTimeSlot ==> ", bookedTimeSlot)
+                    $("#bookedTimeSlotTag"+dataDic.employee1_id+" div.tag-sel-ctn").empty();
+                    // let tagsInputElement1 = document.getElementById("bookedTimeSlotTag"+dataDic.employee1_id);
+                    // tagsInputElement1.getElementsByClassName("tag-sel-ctn")[0].innerHTML = bookedTimeSlot;
+                    // $("#bookedTimeSlotTag"+dataDic.employee2_id+" div.tag-sel-ctn").empty();
+                    // let tagsInputElement2 = document.getElementById("bookedTimeSlotTag"+dataDic.employee2_id);
+                    // tagsInputElement2.getElementsByClassName("tag-sel-ctn")[0].innerHTML = bookedTimeSlot;
+                    $("#bookedTimeSlotTag"+dataDic.employee1_id+" div.tag-sel-ctn:last").append(bookedTimeSlot)
+                    $("#bookedTimeSlotTag"+dataDic.employee2_id+" div.tag-sel-ctn:last").append(bookedTimeSlot)
+                }
             },
             error: function (data) {
 

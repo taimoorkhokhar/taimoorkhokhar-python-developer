@@ -1,70 +1,151 @@
 $(document).ready(function () {
-    setTimeout(function(){
-        var e = document.getElementById("selectEmployeeDropdown");
-        var strUser = e.value;
-        console.log("strUser", strUser)
+    const employeeDatePicker = document.querySelector("#employeeDatePicker");
+    let employeesDic = {};
+    let selectedDate = null;
+    let firstEmployeeId = null;
+    let secondEmployeeId = null;
+    let meetingFromslot = null;
+    let meetingToslot = null;
+    let employeesByDateUrl = "http://127.0.0.1:8000/api/employees/";
+    let employeesTimeSlotsUrl = "http://127.0.0.1:8000/api/meeting_slots/";
+    let bookMeetingUrl = "http://127.0.0.1:8000/api/meeting_slots/";
 
-        const chatBubbles = document.querySelectorAll('#mCSB_1 ul li a');
-        const sendMessage = document.querySelector('#send-message');
-        const chatProfileImage = $('.chat-profile-photo');
-        const chatProfileName = $('.chat-profile-name');
-        const chatOrganizationName = $('.chat-profile-name p');
-        const chatChannelName = $('.chat-profile-name p');
-        const typingAnimation = $('.chat-box .clearfix.typing-animation');
-        
+    const fp = flatpickr(employeeDatePicker, {});  // flatpickr
 
-        for (let clickEventCounter = 0; clickEventCounter < chatBubbles.length; clickEventCounter++) {
-            chatBubbles[clickEventCounter].addEventListener('click',  chatBubblesClickEvent.bind(this, clickEventCounter), false);
-        }
-        sendMessage.addEventListener('click',  sendMessageClickEvent.bind(this, 0), false);
+    $('.alert.alert-success').close()
+
+    fp.config.onChange.push(function(selectedDates, dateStr, instance) {
+        selectedDate = dateStr
+        getEmployeesByDate()
+    });
 
 
-        function sendMessageClickEvent(elementCounter, element){
-            
-        }
+    $("#bookMeetingform").submit(function(e) {
+        e.preventDefault(); //prevent page from reloading on form submit
+        bookMeetingApiCall()
+    });
 
-        function askQuestionApiCall(collectiveName,channelName,assistantName, message) {
-            // console.log(collectiveName,channelName,assistantName, message)
-            const form_data = new FormData();
-            form_data.append("collective_name",collectiveName);
-            form_data.append("channel_name",channelName);
-            form_data.append("assistant_name",assistantName);
-            form_data.append("question",message);
-            form_data.append("csrfmiddlewaretoken" , "{{csrf_token}}");
-            $.ajax({
-                url: "http://127.0.0.1/api/ask-question/?format=json",
-                type:'POST',
-                data: form_data,
-                cache: false,
-                processData: false,
-                contentType: false,
-                success: function (response) {
-                    const collection = document.querySelectorAll('.clearfix.typing-animation.admin_chat');
 
-                    for (const elem of collection) {
-                        elem.remove();
-                    }
-
-                    let responseMessageHtml = `<li class="clearfix admin_chat">
-                                                    <span class="chat-img">
-                                                        <img src="/static/vendors/images/logo-icon.png" alt="">
-                                                    </span>
-                                                    <div class="chat-body clearfix">
-                                                        <p>`+response[assistantName]+`</p>
-                                                        <div class="chat_time">09:40PM</div>
-                                                    </div>
-                                                </li>`
-                    $(".chat-box ul li:last").before(responseMessageHtml);
-                    $("#mCSB_2").animate({ scrollTop: $("#mCSB_2")[0].scrollHeight}, {duration: 1000, complete: function(){
-                        // const chatContainerHeight = $('#mCSB_2_container').height()
-                        // $("#mCSB_2_container").css("top", -chatContainerHeight);
-                    }});       
-                },
-                error: function (data) {
-
+    function getEmployeesByDate() {
+        $.ajax({
+            url: employeesByDateUrl+selectedDate,
+            type:'GET',
+            cache: false,
+            processData: false,
+            contentType: "application/json",
+            dataType: "json",
+            success: function (response) {
+                document.getElementsByClassName("employeeTableBody")[0].innerHTML = "" // Delete Rows inside Table Body
+                employeesDic = response.response;
+                let counter = 1;
+                for (const dataDic of response.response) {
+                    let employeeTableRow = `<tr>
+                                                <th scope="row">`+counter+`</th>
+                                                <!-- First Name -->
+                                                <td class="employeeFirstName">`+dataDic.first_name+`</td>
+                                                <!-- Last Name --> 
+                                                <td class="employeeLastName">`+dataDic.last_name+`</td>
+                                                <td><button type="button" class="btn btn-primary btn-sm bookMeetingBtn" data-toggle="modal" data-target="#bookMeetingModal" data-employee-id=`+dataDic.employee_id+`>Book a Meeting</button></td>
+                                                <td>
+                                                    <input class="bookedTimeSlotTags" style="width:400px;" type="text" name="bookedTimeSlotTags"/>
+                                                </td>
+                                            </tr>`
+                    document.getElementsByClassName("employeeTableBody")[0].innerHTML += employeeTableRow
+                    counter++   
                 }
-            });
-        }
+                const bookMeetingBtns = $('.bookMeetingBtn');
+                for (let clickEventCounter = 0; clickEventCounter < bookMeetingBtns.length; clickEventCounter++) {
+                    bookMeetingBtns[clickEventCounter].addEventListener('click',  bookMeetingBtnsClickEvent.bind(this), false);
+                }
+            },
+            error: function (data) {
 
-    }, 2000);
+            }
+        });
+    }
+
+
+    function getEmployeeTimeSlots(){
+        $.ajax({
+            url: employeesTimeSlotsUrl+selectedDate+"/"+firstEmployeeId+"/"+secondEmployeeId+"/",
+            type:'GET',
+            cache: false,
+            processData: false,
+            contentType: "application/json",
+            dataType: "json",
+            success: function (response) {
+                $("#meetingSlotDropdown").empty();
+                document.getElementById("meetingSlotDropdown").innerHTML += '<option value="" disabled selected>Select TimeSlots</option>'
+                for (const dataDic of response.response) {
+                    let employeeDropdownOption = `<option >`+dataDic.meeting_from_time+ " - " +dataDic.meeting_to_time+`</option>`
+                    document.getElementById("meetingSlotDropdown").innerHTML += employeeDropdownOption
+                }
+                const meetingSlotDropdown = $('#meetingSlotDropdown');
+                for (let clickEventCounter = 0; clickEventCounter < meetingSlotDropdown.length; clickEventCounter++) {
+                    meetingSlotDropdown[clickEventCounter].addEventListener('change',  meetingSlotDropdownClickEvent.bind(this), false);
+                }
+            },
+            error: function (data) {
+
+            }
+        });
+    }
+
+
+    function bookMeetingApiCall(){
+        let data = {
+            "meeting_from_time": meetingFromslot,
+            "meeting_to_time": meetingToslot,
+        }
+        $.ajax({
+            url: bookMeetingUrl+selectedDate+"/"+firstEmployeeId+"/"+secondEmployeeId+"/",
+            type:'PUT',
+            cache: false,
+            processData: false,
+            data:JSON.stringify( data),
+            contentType: "application/json",
+            dataType: "json",
+            success: function (response) {
+                console.log(response)
+                $('#bookMeetingModal').modal('hide')
+                $('.alert.alert-success').alert()
+            },
+            error: function (data) {
+
+            }
+        });
+    }
+
+
+    function meetingSlotDropdownClickEvent(element){
+        const meetingTimeSlots = element.target.value.split(" - ")
+        meetingFromslot = meetingTimeSlots[0]
+        meetingToslot = meetingTimeSlots[1]
+    }
+
+
+    function bookMeetingBtnsClickEvent(element){
+        clickedButton = element
+        currentEmployeeId = clickedButton.target.getAttribute("data-employee-id")
+        firstEmployeeId = currentEmployeeId
+        $("#selectEmployeeDropdown").empty();
+        $("#meetingSlotDropdown").empty();
+        document.getElementById("selectEmployeeDropdown").innerHTML += '<option value="" disabled selected>Select Employee</option>'
+        for (const dataDic of employeesDic) {
+            if(currentEmployeeId != dataDic.employee_id ){
+                let employeeDropdownOption = `<option value="`+dataDic.employee_id+`">`+dataDic.first_name+ " " + dataDic.last_name+`</option>`
+                document.getElementById("selectEmployeeDropdown").innerHTML += employeeDropdownOption
+            }
+        }
+        const employeeDropdown = $('#selectEmployeeDropdown');
+        for (let clickEventCounter = 0; clickEventCounter < employeeDropdown.length; clickEventCounter++) {
+            employeeDropdown[clickEventCounter].addEventListener('change',  employeeDropdownClickEvent.bind(this), false);
+        }
+    }
+
+    function employeeDropdownClickEvent(element){
+        secondEmployeeId = element.target.value
+        getEmployeeTimeSlots()
+
+    }
 });

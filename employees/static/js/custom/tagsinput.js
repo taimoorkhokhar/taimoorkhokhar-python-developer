@@ -1462,23 +1462,16 @@
 })(jQuery);
 
 
-        $(document).ready(function() {
-            var jsonData = [];
-            var fruits = [''];
-            for(var i=0;i<fruits.length;i++) jsonData.push({id:i,name:fruits[i]});
-            // $('.bookedTimeSlotTags').each.tagSuggest({
-            //     data: jsonData,
-            //     sortOrder: 'name',
-            //     maxDropHeight: 200,
-            //     name: 'bookedTimeSlotTags'
-            // });
-            $( ".bookedTimeSlotTags" ).each(function( index ) {
-              // console.log( index + ": " + $( this ).text() );
-              $(this).tagSuggest({
-                data: jsonData,
-                sortOrder: 'name',
-                maxDropHeight: 200,
-                name: 'bookedTimeSlotTags'
-              });
-            });
-        });
+        // $(document).ready(function() {
+        //     var jsonData = [];
+        //     var fruits = [''];
+        //     for(var i=0;i<fruits.length;i++) jsonData.push({id:i,name:fruits[i]});
+        //     $( ".bookedTimeSlotTags" ).each(function( index ) {
+        //       $(this).tagSuggest({
+        //         data: jsonData,
+        //         sortOrder: 'name',
+        //         maxDropHeight: 200,
+        //         name: 'bookedTimeSlotTags'
+        //       });
+        //     });
+        // });
