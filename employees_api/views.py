@@ -59,6 +59,7 @@ class AvailableMeetingSlots(APIView):
             '''
             try:
                 cursor = connection.cursor()
+
                 sql_query = f"""
                                 SELECT t1.* from (SELECT MeetingFromTime, MeetingToTime FROM employees_employeeslots 
                                 where EmployeeId1='{emp1_id}' and MeetingDate='{date}'and message IS NULL) t1 
