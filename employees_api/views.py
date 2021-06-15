@@ -66,6 +66,7 @@ class AvailableMeetingSlots(APIView):
                                 JOIN (SELECT MeetingFromTime, MeetingToTime FROM employees_employeeslots 
                                 where EmployeeId1='{emp2_id}' and MeetingDate='{date}' and message IS NULL) t2 
                                 ON t1.MeetingFromTime = t2.MeetingFromTime AND t1.MeetingToTime = t2.MeetingToTime
+                                Except SELECT MeetingFromTime, MeetingToTime FROM employees_employeeslots WHERE message='booked'
                                 """
                 cursor.execute(sql_query)
                 res = cursor.fetchall()
