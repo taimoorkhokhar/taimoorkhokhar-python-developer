@@ -1,4 +1,19 @@
 # KC Take Home Assignment
+To run the Project First install all the requirements.
+
+After installing the requirements migrate the tables and insert data using following command
+```
+python manage.py migrate
+```
+
+Run the project
+```
+python manage,.py runserver
+```
+
+```
+http://127.0.0.1:8000/employees/
+```
 Thank you for taking the time to do our technical assignment!!
 
 This is meant as a take home assignment for anyone who is wishing to join KC Overseas' tech team. This assignment is very critical for us in making a decision on whether to hire you or not!. It tells us about your coding style, code quality, proficiency and problem solving skills. So, get ready to give it your best!
